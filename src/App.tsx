@@ -1,11 +1,24 @@
-import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import { AuthProvider } from './contexts/AuthContext';
 
-function App() {
+import { Routes } from './routes/index.routes';
+
+import { GlobalStyle } from './styles/global';
+
+import { darkTheme } from './styles/themes/dark';
+import { lightTheme } from './styles/themes/light';
+
+import { AnimatePresence } from 'framer-motion';
+
+export default function App() {
   return (
-    <div className="App">
-      <h1>Hello NLW</h1>
-    </div>
+    <ThemeProvider theme={lightTheme}>
+      <AuthProvider>
+        <GlobalStyle />
+        <AnimatePresence exitBeforeEnter>
+          <Routes />
+        </AnimatePresence>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
-
-export default App;
