@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const Container = styled(motion.button)`
-  height: 50px;
-  border-radius: 8px;
+  height: 3.12rem;
+  border-radius: 0.5rem;
   font-weight: 500;
   background-color: ${(props) => props.theme.purple.normal};
   color: ${(props) => props.theme.text.white};
-  padding: 0 32px;
+  padding: 0 2rem;
 
   display: flex;
   justify-content: center;
@@ -28,6 +28,6 @@ export const Container = styled(motion.button)`
   }
 
   img {
-    margin-right: 8px;
+    margin-right: 0.5rem;
   }
 `;

@@ -7,9 +7,9 @@ export const Container = styled.div`
   align-items: center;
 
   input {
-    height: 50px;
-    border-radius: 8px;
-    padding: 0 16px;
+    height: 3.15rem;
+    border-radius: 0.5rem;
+    padding: 0 1rem;
     background: #fff;
     border: 1px solid #a8a8b3;
     outline: none;
@@ -34,10 +34,10 @@ export const Container = styled.div`
 
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 10px;
+    font-size: 0.6rem;
 
     user-select: none;
-    margin-top: 5px;
+    margin-top: 0.3rem;
 
     color: ${(props) => props.theme.danger.normal};
   }

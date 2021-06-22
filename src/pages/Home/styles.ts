@@ -17,26 +17,26 @@ export const PageAuth = styled(motion.div)`
     flex-direction: column;
     justify-content: center;
 
-    padding: 120px;
+    padding: 7.5rem;
 
     @media (max-width: 900px) {
       display: none;
     }
 
     img {
-      max-width: 320px;
+      max-width: 20rem;
     }
 
     strong {
-      font: 700 36px 'Poopins', sans-serif;
-      line-height: 42px;
-      margin-top: 16px;
+      font: 700 2.25rem 'Poopins', sans-serif;
+      line-height: 2.6rem;
+      margin-top: 1rem;
     }
 
     p {
-      font-size: 24px;
-      line-height: 32px;
-      margin-top: 16px;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      margin-top: 1rem;
       color: #f8f8f8;
     }
   }
@@ -44,7 +44,7 @@ export const PageAuth = styled(motion.div)`
   main {
     flex: 2;
 
-    padding: 0 32px;
+    padding: 0 2rem;
 
     display: flex;
     align-items: center;
@@ -55,7 +55,7 @@ export const PageAuth = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 320px;
+    max-width: 20rem;
     align-items: stretch;
     text-align: center;
 
@@ -66,7 +66,7 @@ export const PageAuth = styled(motion.div)`
 
   form {
     button {
-      margin-top: 16px;
+      margin-top: 1rem;
     }
 
     button,
@@ -76,15 +76,15 @@ export const PageAuth = styled(motion.div)`
   }
 
   .create-room {
-    margin-top: 64px;
+    margin-top: 4rem;
     background: #ea4335;
   }
 
   .separator {
-    font-size: 14px;
+    font-size: 0.87rem;
     color: ${(props) => props.theme.gray.primary};
 
-    margin: 32px 0;
+    margin: 2rem 0;
 
     display: flex;
     align-items: center;
@@ -94,7 +94,7 @@ export const PageAuth = styled(motion.div)`
       flex: 1;
       height: 1px;
       background: ${(props) => props.theme.gray.primary};
-      margin-right: 16px;
+      margin-right: 1rem;
     }
 
     &::after {
@@ -102,7 +102,7 @@ export const PageAuth = styled(motion.div)`
       flex: 1;
       height: 1px;
       background: ${(props) => props.theme.gray.primary};
-      margin-left: 16px;
+      margin-left: 1rem;
     }
   }
 `;
