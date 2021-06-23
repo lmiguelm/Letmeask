@@ -12,7 +12,7 @@ import { AnimatePresence } from 'framer-motion';
 
 export default function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <AuthProvider>
         <GlobalStyle />
         <AnimatePresence exitBeforeEnter>

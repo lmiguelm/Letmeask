@@ -33,8 +33,8 @@ export const Container = styled.div`
     align-self: flex-start;
 
     text-transform: uppercase;
-    font-weight: bold;
-    font-size: 0.6rem;
+    /* font-weight: bold; */
+    font-size: 0.75rem;
 
     user-select: none;
     margin-top: 0.3rem;
