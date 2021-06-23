@@ -15,6 +15,7 @@ import { useTheme } from 'styled-components';
 import { PageAuth } from './styles';
 import { fadeInUp, stagger } from '../../styles/animation';
 import { FormEvent, useState } from 'react';
+import { database } from '../../services/firebase';
 
 export function Home() {
   const naviagte = useHistory();
@@ -22,6 +23,7 @@ export function Home() {
   const { user, signinWithGoogle } = useAuth();
   const { name } = useTheme();
 
+  const [room, setRoom] = useState<string>();
   const [messageError, setMessageError] = useState<string>();
 
   async function handleCreateRoom() {
@@ -31,9 +33,22 @@ export function Home() {
     naviagte.push('/rooms/new');
   }
 
-  async function handleSubmitForm(event: FormEvent) {
+  async function handleJoinRoom(event: FormEvent) {
     event.preventDefault();
-    setMessageError('Campo obrigatório');
+
+    if (!room || room.trim() == '') {
+      setMessageError('Campo obrigatório.');
+      return;
+    }
+
+    const roomRef = await database.ref(`rooms/${room}`).get();
+
+    if (!roomRef.exists()) {
+      setMessageError('Sala inexistente.');
+      return;
+    }
+
+    naviagte.push(`/rooms/${room}`);
   }
 
   return (
@@ -62,8 +77,21 @@ export function Home() {
 
           <div className="separator">ou entre em uma sala</div>
 
-          <form onSubmit={handleSubmitForm}>
-            <Input type="text" placeholder="Digite o código da sala" errorMessage={messageError} />
+          <form onSubmit={handleJoinRoom}>
+            <Input
+              value={room}
+              onChange={(event) => {
+                if (messageError) {
+                  setMessageError(undefined);
+                }
+
+                setRoom(event.target.value);
+              }}
+              type="text"
+              placeholder="Digite o código da sala"
+              errorMessage={messageError}
+            />
+
             <Button type="submit">
               <img src={logInImg} alt="Logo de Login" />
               Entrar na sala
