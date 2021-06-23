@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -13,14 +13,33 @@ import { Input } from '../../components/Input';
 import { PageNewRoom } from './styles';
 import { fadeInUp, stagger } from '../../styles/animation';
 
+import { database } from '../../services/firebase';
+import { useAuth } from '../../hooks/useAuth';
+
 export function NewRoom() {
   const { name } = useTheme();
+  const { user } = useAuth();
+  const navigate = useHistory();
 
+  const [newRoom, setNewRoom] = useState<string>();
   const [messageError, setMessageError] = useState<string>();
 
-  async function handleSubmitForm(event: FormEvent) {
+  async function handleCreateRoom(event: FormEvent) {
     event.preventDefault();
-    setMessageError('Nome inválido');
+
+    if (!newRoom || newRoom.trim() === '') {
+      setMessageError('Nome inválido');
+      return;
+    }
+
+    const roomRef = database.ref('rooms');
+
+    const firebaseRoom = await roomRef.push({
+      title: newRoom,
+      authorId: user?.id,
+    });
+
+    navigate.push(`/rooms/${firebaseRoom.key}`);
   }
 
   return (
@@ -44,8 +63,21 @@ export function NewRoom() {
 
           <h2>Criar uma nova sala</h2>
 
-          <form onSubmit={handleSubmitForm}>
-            <Input type="text" placeholder="Nome da sala" errorMessage={messageError} />
+          <form onSubmit={handleCreateRoom}>
+            <Input
+              value={newRoom}
+              onChange={(event) => {
+                if (messageError) {
+                  setMessageError(undefined);
+                }
+
+                setNewRoom(event.target.value);
+              }}
+              type="text"
+              placeholder="Nome da sala"
+              errorMessage={messageError}
+            />
+
             <Button type="submit">Criar sala</Button>
           </form>
 
