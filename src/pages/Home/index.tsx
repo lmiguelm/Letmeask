@@ -48,6 +48,11 @@ export function Home() {
       return;
     }
 
+    if (roomRef.val().endedAt) {
+      setMessageError('Sala encerrada');
+      return;
+    }
+
     naviagte.push(`/rooms/${room}`);
   }
 
