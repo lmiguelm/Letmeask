@@ -20,7 +20,7 @@ export const Container = styled(motion.button)`
 
   &:disabled {
     opacity: 0.6;
-    cursor: not-not-allowed;
+    cursor: not-allowed;
   }
 
   &:not(:disabled):hover {
