@@ -10,7 +10,7 @@ import copyImg from '../../assets/images/copy.svg';
 import { useTheme } from 'styled-components';
 
 import { Button } from '../Button';
-import { motion } from 'framer-motion';
+import { HTMLMotionProps, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -34,86 +34,102 @@ const item = {
   },
 };
 
-interface IHeader {
+type IHeader = HTMLMotionProps<'div'> & {
   code: string;
-}
+  handleEndRoom?: () => void;
+};
 
-export function Header({ code }: IHeader) {
+export function Header({ code, handleEndRoom, ...props }: IHeader) {
   const { name } = useTheme();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerHeight <= 900 ? true : false);
 
   useEffect(() => {
-    window.addEventListener('resize', (event) => {
-      if (window.innerHeight <= 900) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    });
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
+
+  function checkIsMobile() {
+    if (window.innerHeight <= 900) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }
 
   function copyRoomCodeToClipboard() {
     navigator.clipboard.writeText(code);
   }
 
   return (
-    <HeaderContainer
-      style={
-        isMobile && isOpen
-          ? {
-              position: 'absolute',
-              width: '100%',
-              height: '100vh',
-              flexDirection: 'column',
-              padding: '1rem 2rem',
-              zIndex: 9999999,
-            }
-          : isMobile
-          ? {
-              flexDirection: 'column',
-              padding: '1rem 2rem',
-            }
-          : {}
-      }
-      variants={container}
-    >
-      <header>
-        <motion.img
-          variants={item}
-          src={name === 'dark' ? logoDarkImg : logoLightImg}
-          alt="Letmeask"
-        />
+    <>
+      <HeaderContainer
+        style={
+          isMobile && isOpen
+            ? {
+                position: 'absolute',
+                width: '100%',
+                height: '100vh',
+                flexDirection: 'column',
+                padding: '1rem 2rem',
+                zIndex: 9999999,
+              }
+            : isMobile
+            ? {
+                flexDirection: 'column',
+                padding: '1rem 2rem',
+              }
+            : {}
+        }
+        variants={container}
+      >
+        <header>
+          <motion.img
+            variants={item}
+            src={name === 'dark' ? logoDarkImg : logoLightImg}
+            alt="Letmeask"
+          />
 
-        <motion.div className="links-desktop" initial="hidden" animate="visible">
-          <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
-            <div>
-              <img src={copyImg} alt="Copy room code" />
-            </div>
-            <span>Sala #{code}</span>
-          </Button>
+          <motion.div className="links-desktop" initial="hidden" animate="visible">
+            <Button variants={item}>tema</Button>
 
-          <Button variants={item}>Encerrar sala</Button>
-        </motion.div>
+            <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
+              <div>
+                <img src={copyImg} alt="Copy room code" />
+              </div>
+              <span>Sala #{code}</span>
+            </Button>
 
-        <div onClick={() => setIsOpen((oldstate) => !oldstate)} className="menu-mobile">
-          {isOpen && isMobile ? <FiX color="#fff" size={24} /> : <FiMenu color="#fff" size={24} />}
-        </div>
-      </header>
+            <Button onClick={handleEndRoom} variants={item}>
+              Encerrar sala
+            </Button>
+          </motion.div>
 
-      {isOpen && isMobile && (
-        <div className="mobile-content">
-          <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
-            <div>
-              <img src={copyImg} alt="Copy room code" />
-            </div>
-            <span>Sala #{code}</span>
-          </Button>
+          <div onClick={() => setIsOpen((oldstate) => !oldstate)} className="menu-mobile">
+            {isOpen && isMobile ? (
+              <FiX color="#fff" size={24} />
+            ) : (
+              <FiMenu color="#fff" size={24} />
+            )}
+          </div>
+        </header>
 
-          <Button variants={item}>Encerrar sala</Button>
-        </div>
-      )}
-    </HeaderContainer>
+        {isOpen && isMobile && (
+          <div className="mobile-content">
+            <Button variants={item}>tema</Button>
+
+            <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
+              <div>
+                <img src={copyImg} alt="Copy room code" />
+              </div>
+              <span>Sala #{code}</span>
+            </Button>
+
+            <Button variants={item}>Encerrar sala</Button>
+          </div>
+        )}
+      </HeaderContainer>
+    </>
   );
 }

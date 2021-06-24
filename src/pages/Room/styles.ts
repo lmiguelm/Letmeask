@@ -8,8 +8,7 @@ export const PageRoom = styled(motion.div)`
   main {
     max-width: 50rem;
     margin: 0 auto;
-
-    height: calc(150vh - 5.56rem);
+    padding: 0 0 3rem 0;
 
     @media (max-width: 900px) {
       padding: 0rem 1rem;
@@ -45,7 +44,7 @@ export const PageRoom = styled(motion.div)`
         background-color: ${(props) => props.theme.details};
         color: ${(props) => props.theme.text.primary};
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(0, 0, 0, 0.4);
+        border: none;
         resize: vertical;
         min-height: 8.1rem;
         outline: none;
@@ -53,7 +52,7 @@ export const PageRoom = styled(motion.div)`
         transition: all 0.4s;
 
         &:focus {
-          border: 1px solid ${(props) => props.theme.purple.normal};
+          box-shadow: 0 2px 12px rgba(111, 75, 216, 0.5);
         }
       }
 
@@ -96,6 +95,10 @@ export const PageRoom = styled(motion.div)`
           }
         }
       }
+    }
+
+    .question-list {
+      margin-top: 3rem;
     }
   }
 `;

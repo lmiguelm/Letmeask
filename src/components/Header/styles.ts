@@ -11,6 +11,13 @@ export const HeaderContainer = styled(motion.div)`
   display: flex;
   align-items: center;
 
+  &.disabled {
+    overflow-y: none;
+    background: rgba(0, 0, 0, 0.9);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
   header {
     width: 100%;
     display: flex;
