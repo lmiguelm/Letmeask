@@ -10,10 +10,12 @@ export const Container = styled.div`
   overflow: none;
 
   h2 {
+    font-size: 1.25rem;
     color: ${(props) => props.theme.text.primary};
   }
 
   a {
+    font-size: 0.87rem;
     margin-top: 0.5rem;
     color: ${(props) => props.theme.pink.dark};
   }

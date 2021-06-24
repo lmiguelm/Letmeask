@@ -13,10 +13,13 @@ import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Question } from '../../components/Question';
 import { Loading } from '../../components/Loading';
+import { Error } from '../../components/Error';
 
 import { PageRoom } from './styles';
 import { fadeInUp, stagger } from '../../styles/animation';
 import { EmptyQuestion } from '../../components/EmptyQuestion';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 type IRoomParams = {
   id: string;
@@ -27,7 +30,7 @@ export function Room() {
 
   const { user } = useAuth();
   const { details, text } = useTheme();
-  const { questions, loadedRoom, title } = useRoom(roomId);
+  const { questions, loadedRoom, title, ended } = useRoom(roomId);
 
   const [newQuestion, setNewQuestion] = useState<string>();
 
@@ -87,6 +90,16 @@ export function Room() {
     return <Loading />;
   }
 
+  if (ended) {
+    return (
+      <Error
+        title={`Sala encerrada em ${format(new Date(ended), 'PPPP', {
+          locale: ptBR,
+        })}`}
+      />
+    );
+  }
+
   return (
     <>
       <Header code={roomId} />
@@ -117,7 +130,7 @@ export function Room() {
                 </div>
               ) : (
                 <span>
-                  Para enviar uma pergunta <button>faça seu login</button>
+                  Para enviar uma pergunta e curtir <button>faça seu login</button>
                 </span>
               )}
 
@@ -132,9 +145,10 @@ export function Room() {
               {questions.map((question) => (
                 <Question key={question.id} author={question.author} content={question.content}>
                   <motion.button
+                    disabled={!user}
                     onClick={() => handleLikeQuesiton(question.id, question.likeId)}
                     whileTap={
-                      !question.likeId
+                      !question.likeId && user
                         ? {
                             scale: 1.1,
                           }

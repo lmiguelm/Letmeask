@@ -106,7 +106,7 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
               <div>
                 <img src={copyImg} alt="Copy room code" />
               </div>
-              <span>Sala #{code}</span>
+              <span>#{code}</span>
             </Button>
 
             {isAdmin ? (
@@ -135,7 +135,7 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
               <div>
                 <img src={copyImg} alt="Copy room code" />
               </div>
-              <span>Sala #{code}</span>
+              <span>#{code}</span>
             </Button>
 
             {isAdmin ? (

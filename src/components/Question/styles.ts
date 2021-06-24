@@ -55,8 +55,12 @@ export const Container = styled(motion.div)`
 
       transition: filter 0.2s;
 
-      &:hover {
-        filter: brightness(0.7);
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        filter: brightness(0.9);
       }
 
       &.like-button {
