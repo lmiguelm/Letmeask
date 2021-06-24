@@ -39,7 +39,7 @@ export function NewRoom() {
       authorId: user?.id,
     });
 
-    navigate.push(`/rooms/${firebaseRoom.key}`);
+    navigate.push(`/admin/rooms/${firebaseRoom.key}`);
   }
 
   return (
