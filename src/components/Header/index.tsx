@@ -16,6 +16,8 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SwitchTheme } from '../SwitchTheme';
 
+import toast, { Toaster } from 'react-hot-toast';
+
 const container = {
   hidden: { opacity: 1, scale: 0 },
   visible: {
@@ -43,7 +45,7 @@ type IHeader = HTMLMotionProps<'div'> & {
 };
 
 export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
-  const { name } = useTheme();
+  const { name, details, text } = useTheme();
   const navigate = useHistory();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -64,6 +66,18 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
 
   function copyRoomCodeToClipboard() {
     navigator.clipboard.writeText(code);
+
+    toast((t) => {
+      t.position = 'bottom-right';
+      t.type = 'success';
+      t.message = 'Copiado para àrea de transferência';
+      t.style = {
+        background: details,
+        color: text.primary,
+      };
+
+      return <></>;
+    });
   }
 
   function logout() {
