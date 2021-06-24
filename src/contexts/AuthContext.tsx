@@ -3,22 +3,22 @@ import { createContext, ReactNode, useCallback, useState } from 'react';
 
 import { auth, firebase } from '../services/firebase';
 
-interface IUser {
+type IUser = {
   avatar: string;
   id: string;
   name: string;
-}
+};
 
-interface IAuthContext {
+type IAuthContext = {
   user: IUser | undefined;
   signinWithGoogle: () => Promise<void>;
-}
+};
 
 export const AuthContext = createContext({} as IAuthContext);
 
-interface IAuthProviderProps {
+type IAuthProviderProps = {
   children: ReactNode;
-}
+};
 
 export function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<IUser>();

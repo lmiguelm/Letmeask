@@ -3,9 +3,9 @@ import { useTheme } from 'styled-components';
 
 import { Container } from './styles';
 
-interface IInputProps extends HTMLMotionProps<'input'> {
+type IInputProps = HTMLMotionProps<'input'> & {
   errorMessage?: string;
-}
+};
 
 export function Input({ errorMessage, ...rest }: IInputProps) {
   const { danger } = useTheme();

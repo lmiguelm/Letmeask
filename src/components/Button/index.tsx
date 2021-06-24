@@ -1,7 +1,7 @@
 import { HTMLMotionProps } from 'framer-motion';
 import { Container } from './styles';
 
-interface IButtonProps extends HTMLMotionProps<'button'> {}
+type IButtonProps = HTMLMotionProps<'button'>;
 
 export function Button({ children, ...rest }: IButtonProps) {
   return (
