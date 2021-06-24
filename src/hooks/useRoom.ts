@@ -40,6 +40,7 @@ export function useRoom(roomId: string) {
 
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [title, setTitle] = useState<string>();
+  const [isAdmin, setIsAdmin] = useState<boolean>();
 
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -48,8 +49,10 @@ export function useRoom(roomId: string) {
 
     roomRef.on('value', (room) => {
       const databaseRoom = room.val();
+
       const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
 
+      const roomAdmin = databaseRoom.authorId as string;
       const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
         return {
           id: key,
@@ -66,6 +69,7 @@ export function useRoom(roomId: string) {
 
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
+      setIsAdmin(roomAdmin === user?.id);
       setLoaded(true);
     });
 
@@ -73,8 +77,9 @@ export function useRoom(roomId: string) {
   }, [roomId, user?.id]);
 
   return {
-    loadedQuestions: loaded,
+    loadedRoom: loaded,
     title,
     questions,
+    isAdmin,
   };
 }

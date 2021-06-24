@@ -19,6 +19,7 @@ import { fadeInUp, stagger } from '../../styles/animation';
 import deletedImg from '../../assets/images/delete.svg';
 import removeImg from '../../assets/images/remove.svg';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { EmptyQuestion } from '../../components/EmptyQuestion';
 
 type IRoomParams = {
   id: string;
@@ -29,7 +30,7 @@ export function AdminRoom() {
   const navigate = useHistory();
 
   const { purple } = useTheme();
-  const { questions, loadedQuestions, title } = useRoom(roomId);
+  const { questions, loadedRoom, title, isAdmin } = useRoom(roomId);
 
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
 
@@ -108,13 +109,17 @@ export function AdminRoom() {
     });
   }
 
-  if (!loadedQuestions) {
+  if (!loadedRoom) {
     return <Loading />;
+  }
+
+  if (!isAdmin) {
+    navigate.push('/');
   }
 
   return (
     <>
-      <Header handleEndRoom={handleEndRoom} code={roomId} />
+      <Header isAdmin={isAdmin} handleEndRoom={handleEndRoom} code={roomId} />
 
       <PageRoom variants={stagger} initial="initial" animate="animate" exit={{ opacity: 0 }}>
         <motion.main variants={fadeInUp}>
@@ -123,21 +128,27 @@ export function AdminRoom() {
             {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
           </div>
 
-          <div className="question-list">
-            {questions.map((question) => (
-              <Question key={question.id} author={question.author} content={question.content}>
-                <motion.button
-                  type="button"
-                  onClick={() => handleDeleteQuestion(question.id)}
-                  whileTap={{
-                    scale: 1.1,
-                  }}
-                >
-                  <img src={deletedImg} alt="Remover pergunta" />
-                </motion.button>
-              </Question>
-            ))}
-          </div>
+          {questions.length > 0 ? (
+            <div className="question-list">
+              {questions.map((question) => (
+                <Question key={question.id} author={question.author} content={question.content}>
+                  <motion.button
+                    type="button"
+                    onClick={() => handleDeleteQuestion(question.id)}
+                    whileTap={{
+                      scale: 1.1,
+                    }}
+                  >
+                    <img src={deletedImg} alt="Remover pergunta" />
+                  </motion.button>
+                </Question>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-questions">
+              <EmptyQuestion />
+            </div>
+          )}
         </motion.main>
       </PageRoom>
 

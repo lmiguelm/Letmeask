@@ -9,13 +9,14 @@ export const PageRoom = styled(motion.div)`
     max-width: 50rem;
     margin: 0 auto;
     padding: 0 0 3rem 0;
+    min-height: 100%;
 
     @media (max-width: 900px) {
       padding: 0rem 1rem;
     }
 
     .room-title {
-      margin: 2rem 0 1.5rem;
+      padding: 2rem 0 1.5rem;
       display: flex;
       align-items: center;
 
@@ -38,6 +39,10 @@ export const PageRoom = styled(motion.div)`
 
     .question-list {
       margin-top: 3rem;
+    }
+
+    .empty-questions {
+      margin-top: 100px;
     }
   }
 `;
