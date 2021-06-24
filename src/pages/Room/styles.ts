@@ -8,7 +8,7 @@ export const PageRoom = styled(motion.div)`
   main {
     max-width: 50rem;
     margin: 0 auto;
-    padding: 0 0 3rem 0;
+    padding: 0 0 3rem;
 
     @media (max-width: 900px) {
       padding: 0rem 1rem;
@@ -99,6 +99,10 @@ export const PageRoom = styled(motion.div)`
 
     .question-list {
       margin-top: 3rem;
+    }
+
+    .empty-questions {
+      margin-top: 100px;
     }
   }
 `;
