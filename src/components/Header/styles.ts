@@ -61,7 +61,7 @@ export const HeaderContainer = styled(motion.div)`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
 
     @media (max-width: 900px) {
       display: none;

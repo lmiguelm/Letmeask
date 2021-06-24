@@ -13,6 +13,8 @@ import { Button } from '../Button';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { SwitchTheme } from '../SwitchTheme';
 
 const container = {
   hidden: { opacity: 1, scale: 0 },
@@ -37,10 +39,12 @@ const item = {
 type IHeader = HTMLMotionProps<'div'> & {
   code: string;
   handleEndRoom?: () => void;
+  isAdmin?: boolean;
 };
 
-export function Header({ code, handleEndRoom, ...props }: IHeader) {
+export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
   const { name } = useTheme();
+  const navigate = useHistory();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerHeight <= 900 ? true : false);
@@ -60,6 +64,10 @@ export function Header({ code, handleEndRoom, ...props }: IHeader) {
 
   function copyRoomCodeToClipboard() {
     navigator.clipboard.writeText(code);
+  }
+
+  function logout() {
+    navigate.push('/');
   }
 
   return (
@@ -92,7 +100,7 @@ export function Header({ code, handleEndRoom, ...props }: IHeader) {
           />
 
           <motion.div className="links-desktop" initial="hidden" animate="visible">
-            <Button variants={item}>tema</Button>
+            <SwitchTheme />
 
             <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
               <div>
@@ -101,9 +109,15 @@ export function Header({ code, handleEndRoom, ...props }: IHeader) {
               <span>Sala #{code}</span>
             </Button>
 
-            <Button onClick={handleEndRoom} variants={item}>
-              Encerrar sala
-            </Button>
+            {isAdmin ? (
+              <Button onClick={handleEndRoom} variants={item}>
+                Encerrar sala
+              </Button>
+            ) : (
+              <Button onClick={logout} variants={item}>
+                Sair da sala
+              </Button>
+            )}
           </motion.div>
 
           <div onClick={() => setIsOpen((oldstate) => !oldstate)} className="menu-mobile">
@@ -117,8 +131,6 @@ export function Header({ code, handleEndRoom, ...props }: IHeader) {
 
         {isOpen && isMobile && (
           <div className="mobile-content">
-            <Button variants={item}>tema</Button>
-
             <Button onClick={copyRoomCodeToClipboard} className="room-code" variants={item}>
               <div>
                 <img src={copyImg} alt="Copy room code" />
@@ -126,7 +138,17 @@ export function Header({ code, handleEndRoom, ...props }: IHeader) {
               <span>Sala #{code}</span>
             </Button>
 
-            <Button variants={item}>Encerrar sala</Button>
+            {isAdmin ? (
+              <Button onClick={handleEndRoom} variants={item}>
+                Encerrar sala
+              </Button>
+            ) : (
+              <Button onClick={logout} variants={item}>
+                Sair da sala
+              </Button>
+            )}
+
+            <SwitchTheme style={{ alignSelf: 'flex-start' }} />
           </div>
         )}
       </HeaderContainer>

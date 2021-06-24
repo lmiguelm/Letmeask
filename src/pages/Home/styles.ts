@@ -75,6 +75,11 @@ export const PageAuth = styled(motion.div)`
     }
   }
 
+  .theme-container {
+    margin-top: 2rem;
+    align-self: center;
+  }
+
   .create-room {
     margin-top: 4rem;
     background: #ea4335;

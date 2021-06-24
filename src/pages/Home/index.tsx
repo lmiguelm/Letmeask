@@ -16,6 +16,7 @@ import { PageAuth } from './styles';
 import { fadeInUp, stagger } from '../../styles/animation';
 import { FormEvent, useState } from 'react';
 import { database } from '../../services/firebase';
+import { SwitchTheme } from '../../components/SwitchTheme';
 
 export function Home() {
   const naviagte = useHistory();
@@ -102,6 +103,10 @@ export function Home() {
               Entrar na sala
             </Button>
           </form>
+
+          <div className="theme-container">
+            <SwitchTheme />
+          </div>
         </div>
       </motion.main>
     </PageAuth>
