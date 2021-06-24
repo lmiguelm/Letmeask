@@ -4,7 +4,11 @@ import astronaut from '../../assets/lotties/astronaut.json';
 
 import { Container } from './styles';
 
-export function NotFound() {
+type IError = {
+  title?: string;
+};
+
+export function Error({ title = 'Página não encontrada.' }: IError) {
   return (
     <Container>
       <Lottie
@@ -16,7 +20,7 @@ export function NotFound() {
         height={300}
         width={300}
       />
-      <h2>Página não encontrada.</h2>
+      <h2>{title}</h2>
       <Link to="/">Ir para home</Link>
     </Container>
   );
