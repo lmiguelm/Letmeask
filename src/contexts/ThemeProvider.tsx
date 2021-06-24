@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -23,13 +23,13 @@ export function ThemeContextProvider(props: ThemeContextProviderProps) {
     localStorage.setItem('@letmeask:theme', currentTheme);
   }, [currentTheme]);
 
-  function toggleTheme(theme?: Theme) {
+  const toggleTheme = useCallback((theme?: Theme) => {
     if (!theme) {
-      setCurrentTheme(currentTheme === 'light' ? 'dark' : 'light');
+      setCurrentTheme((oldstate) => (oldstate === 'light' ? 'dark' : 'light'));
     } else {
       setCurrentTheme(theme);
     }
-  }
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>

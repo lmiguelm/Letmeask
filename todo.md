@@ -1,15 +1,13 @@
-# [ ] mudança de tema
+# [ x ] mudança de tema
 
-# [ ] reponsividade
+# [ x ] reponsividade
 
 # [ ] filtrar perguntas
 
 # [ ] pwa
 
-# [ ] modal
+# [ x ] modal
 
 # [ ] publicar na vercel
 
-# [ ] verificar se o admin
-
-# [ ] autenticar rotas
+# [ x ] verificar se o admin
