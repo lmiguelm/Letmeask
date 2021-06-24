@@ -1,5 +1,4 @@
 import { HTMLMotionProps, motion } from 'framer-motion';
-import { useTheme } from 'styled-components';
 
 import { Container } from './styles';
 
@@ -8,13 +7,11 @@ type IInputProps = HTMLMotionProps<'input'> & {
 };
 
 export function Input({ errorMessage, ...rest }: IInputProps) {
-  const { danger } = useTheme();
-
   return (
     <Container>
       <motion.input
         {...rest}
-        style={errorMessage ? { border: `1px solid ${danger.normal}` } : {}}
+        style={errorMessage ? { boxShadow: `0 2px 12px rgba(215, 55, 84, 0.5)` } : {}}
       />
 
       {errorMessage && (

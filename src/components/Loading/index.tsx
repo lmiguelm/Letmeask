@@ -12,8 +12,8 @@ export function Loading() {
           loop: true,
           autoplay: true,
         }}
-        height={500}
-        width={500}
+        height={300}
+        width={300}
       />
     </Container>
   );

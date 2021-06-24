@@ -41,6 +41,12 @@ export const Container = styled(motion.div)`
       }
     }
 
+    .children-container {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
     button {
       border: 0;
       background: transparent;
@@ -62,6 +68,47 @@ export const Container = styled(motion.div)`
           color: ${(props) => props.theme.purple.normal};
 
           svg path {
+            stroke: ${(props) => props.theme.purple.normal};
+          }
+        }
+      }
+
+      &.delete-button {
+        color: ${(props) => props.theme.gray.secondary};
+        transition: all 0.4s;
+
+        &:hover {
+          color: ${(props) => props.theme.danger.normal};
+
+          svg path {
+            stroke: ${(props) => props.theme.danger.normal};
+          }
+        }
+      }
+
+      &.check-button {
+        color: ${(props) => props.theme.gray.secondary};
+        transition: all 0.4s;
+
+        &:hover {
+          color: ${(props) => props.theme.purple.normal};
+
+          svg path,
+          svg circle {
+            stroke: ${(props) => props.theme.purple.normal};
+          }
+        }
+      }
+
+      &.answer-button {
+        color: ${(props) => props.theme.gray.secondary};
+        transition: all 0.4s;
+
+        &:hover {
+          color: ${(props) => props.theme.purple.normal};
+
+          svg path,
+          svg circle {
             stroke: ${(props) => props.theme.purple.normal};
           }
         }

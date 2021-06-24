@@ -22,7 +22,7 @@ export function Question({ content, author, children, ...rest }: IQuestionProps)
           <span>{author.name}</span>
         </div>
 
-        <div>{children}</div>
+        <div className="children-container">{children}</div>
       </footer>
     </Container>
   );

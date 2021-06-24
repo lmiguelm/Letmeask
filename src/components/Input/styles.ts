@@ -11,8 +11,9 @@ export const Container = styled.div`
     border-radius: 0.5rem;
     padding: 0 1rem;
     background: #fff;
-    border: 1px solid #a8a8b3;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     outline: none;
+    border: none;
 
     transition: all 0.2s;
 
@@ -21,7 +22,7 @@ export const Container = styled.div`
     }
 
     &:focus {
-      border: 1px solid ${(props) => props.theme.purple.hover};
+      box-shadow: 0 2px 12px rgba(111, 75, 216, 0.5);
 
       &::placeholder {
         transform: scale(0.9);

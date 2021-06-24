@@ -44,6 +44,10 @@ export const PageRoom = styled(motion.div)`
     .empty-questions {
       margin-top: 100px;
     }
+
+    .delete {
+      stroke: red;
+    }
   }
 `;
 
