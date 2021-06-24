@@ -1,0 +1,71 @@
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+
+export const Container = styled(motion.div)`
+  background-color: ${(props) => props.theme.details};
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+
+  & + & {
+    margin-top: 0.75rem;
+  }
+
+  p {
+    flex: 1;
+    color: ${(props) => props.theme.text.primary};
+    text-align: justify;
+    word-break: break-all; // fazer a tag quebrar de linha no final da div
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+      }
+
+      span {
+        margin-left: 0.5rem;
+        color: ${(props) => props.theme.gray.secondary};
+        font-size: 0.87rem;
+      }
+    }
+
+    button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      gap: 0.5rem;
+
+      transition: filter 0.2s;
+
+      &:hover {
+        filter: brightness(0.7);
+      }
+
+      &.like-button {
+        display: flex;
+        align-items: flex-end;
+        color: ${(props) => props.theme.gray.secondary};
+
+        &.liked {
+          color: ${(props) => props.theme.purple.normal};
+
+          svg path {
+            stroke: ${(props) => props.theme.purple.normal};
+          }
+        }
+      }
+    }
+  }
+`;
