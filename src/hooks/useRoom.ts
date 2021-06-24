@@ -41,6 +41,7 @@ export function useRoom(roomId: string) {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [title, setTitle] = useState<string>();
   const [isAdmin, setIsAdmin] = useState<boolean>();
+  const [ended, setEnded] = useState<boolean>();
 
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -53,6 +54,7 @@ export function useRoom(roomId: string) {
       const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
 
       const roomAdmin = databaseRoom.authorId as string;
+      const ended = !!databaseRoom.endedAt;
       const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
         return {
           id: key,
@@ -70,6 +72,7 @@ export function useRoom(roomId: string) {
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
       setIsAdmin(roomAdmin === user?.id);
+      setEnded(ended);
       setLoaded(true);
     });
 
@@ -81,5 +84,6 @@ export function useRoom(roomId: string) {
     title,
     questions,
     isAdmin,
+    ended,
   };
 }
