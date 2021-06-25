@@ -27,10 +27,6 @@ export const Toggle = styled.div`
   padding: 0.6rem;
   cursor: pointer;
 
-  &[data-isOn='true'] {
-    justify-content: flex-end;
-  }
-
   div.handle {
     width: 0.6rem;
     height: 0.6rem;

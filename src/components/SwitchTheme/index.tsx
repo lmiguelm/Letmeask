@@ -30,7 +30,10 @@ export function SwitchTheme(props: ISwitchThemeProps) {
         color={theme === 'dark' ? purple.normal : text.primary}
         size={18}
       />
-      <Toggle data-isOn={theme !== 'dark'} onClick={() => toggleSwitch()}>
+      <Toggle
+        style={theme !== 'dark' ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }}
+        onClick={() => toggleSwitch()}
+      >
         <motion.div className="handle" layout transition={spring}></motion.div>
       </Toggle>
       <FiSun
