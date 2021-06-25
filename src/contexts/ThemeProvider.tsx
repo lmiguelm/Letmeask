@@ -16,7 +16,13 @@ export const ThemeContext = createContext({} as ThemeContextType);
 export function ThemeContextProvider(props: ThemeContextProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme>(() => {
     const storagedTheme = localStorage.getItem('@letmeask:theme');
-    return (storagedTheme ?? 'dark') as Theme;
+
+    if (!storagedTheme) {
+      const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      return prefersColorScheme.matches ? 'dark' : 'light';
+    }
+
+    return storagedTheme as Theme;
   });
 
   useEffect(() => {
