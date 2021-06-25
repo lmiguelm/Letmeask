@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { ThemeContextProvider } from './contexts/ThemeProvider';
 import App from './App';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 import './services/firebase';
 
 ReactDOM.render(
@@ -13,3 +15,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+serviceWorkerRegistration.unregister();
