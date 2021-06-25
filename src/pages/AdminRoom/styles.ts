@@ -41,7 +41,7 @@ export const PageRoom = styled(motion.div)`
       margin-top: 3rem;
 
       .question-container {
-        margin-top: 5rem;
+        margin-top: 2.5rem;
       }
 
       .answer-container-input {

@@ -93,7 +93,23 @@ export function useRoom(roomId: string) {
         };
       });
 
-      setQuestions(parsedQuestions);
+      setQuestions(
+        parsedQuestions
+          .sort((a, b) => {
+            if (a.likeCount >= b.likeCount) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+          .sort((a) => {
+            if (!a.isAnswered) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+      );
       setIsAdmin(roomAdmin === user?.id);
       setEnded(ended);
       setLoaded(true);

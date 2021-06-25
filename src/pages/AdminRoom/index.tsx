@@ -172,11 +172,11 @@ export function AdminRoom() {
     return <Loading />;
   }
 
-  if (!isAdmin) {
+  if (!isAdmin && loadedRoom) {
     return <Error title="Acesso negado. Você não é o adminstrador desta sala!" />;
   }
 
-  if (ended) {
+  if (ended && loadedRoom) {
     return (
       <Error
         title={`Sala encerrada em ${format(new Date(ended), 'PPPP', {
