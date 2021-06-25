@@ -11,6 +11,16 @@ export const Container = styled(motion.div)`
     margin-top: 0.75rem;
   }
 
+  &.highlighted {
+    box-shadow: 0 2px 12px rgba(111, 75, 216, 0.5);
+    border: 1px solid ${(props) => props.theme.purple.normal};
+  }
+
+  &.answered {
+    background-color: ${(props) => props.theme.background};
+    opacity: 0.7;
+  }
+
   p {
     flex: 1;
     color: ${(props) => props.theme.text.primary};
@@ -36,7 +46,7 @@ export const Container = styled(motion.div)`
 
       span {
         margin-left: 0.5rem;
-        color: ${(props) => props.theme.gray.secondary};
+        color: ${(props) => props.theme.gray.primary};
         font-size: 0.87rem;
       }
     }

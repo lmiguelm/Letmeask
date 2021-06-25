@@ -9,11 +9,25 @@ type IQuestionProps = HTMLMotionProps<'div'> & {
     avatar: string;
   };
   children?: ReactNode;
+  isAnswered?: boolean;
+  isHighLighted?: boolean;
 };
 
-export function Question({ content, author, children, ...rest }: IQuestionProps) {
+export function Question({
+  isAnswered = false,
+  isHighLighted = false,
+  content,
+  author,
+  children,
+  ...rest
+}: IQuestionProps) {
   return (
-    <Container {...rest}>
+    <Container
+      {...rest}
+      className={`${isAnswered ? `answered` : ''} ${
+        isHighLighted && !isAnswered ? `highlighted` : ``
+      }`}
+    >
       <p>{content}</p>
 
       <footer>

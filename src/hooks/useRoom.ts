@@ -9,10 +9,17 @@ type IQuestion = {
     avatar: string;
   };
   content: string;
-  isHighLighted: string;
-  isAnswer: string;
+  isHighLighted: boolean;
+  isAnswered: boolean;
   likeCount: number;
   likeId: string | undefined;
+  answers: Array<{
+    author: {
+      name: string;
+      avatar: string;
+    };
+    content: string;
+  }>;
 };
 
 type FirebaseQuestions = Record<
@@ -23,8 +30,8 @@ type FirebaseQuestions = Record<
       avatar: string;
     };
     content: string;
-    isHighLighted: string;
-    isAnswer: string;
+    isHighLighted: boolean;
+    isAnswered: boolean;
     likes: Record<
       string,
       {
@@ -32,6 +39,16 @@ type FirebaseQuestions = Record<
       }
     >;
     likeId: string | undefined;
+    answers: Record<
+      string,
+      {
+        author: {
+          name: string;
+          avatar: string;
+        };
+        content: string;
+      }
+    >;
   }
 >;
 
@@ -61,15 +78,21 @@ export function useRoom(roomId: string) {
           content: value.content,
           author: value.author,
           isHighLighted: value.isHighLighted,
-          isAnswer: value.isAnswer,
+          isAnswered: value.isAnswered,
           likeCount: Object.values(value.likes ?? {}).length,
           likeId: Object.entries(value.likes ?? {}).find(
             ([key, like]) => like.authorId === user?.id
           )?.[0],
+          answers: Object.entries(value.answers ?? {}).map(([key, value]) => {
+            return {
+              id: key,
+              author: value.author,
+              content: value.content,
+            };
+          }),
         };
       });
 
-      setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
       setIsAdmin(roomAdmin === user?.id);
       setEnded(ended);

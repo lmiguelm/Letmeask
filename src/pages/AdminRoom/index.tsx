@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, Fragment, FormEvent, useRef } from 'react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
+import { FiCheckCircle, FiMessageSquare, FiTrash, FiCornerDownRight } from 'react-icons/fi';
 
 import { database } from '../../services/firebase';
 
@@ -13,11 +14,19 @@ import { Question } from '../../components/Question';
 import { Loading } from '../../components/Loading';
 import { Modal } from '../../components/Modal';
 import { EmptyQuestion } from '../../components/EmptyQuestion';
+import { Error } from '../../components/Error';
+import { Answer } from '../../components/Answer';
 
 import { Overlay, PageRoom } from './styles';
 import { fadeInUp, stagger } from '../../styles/animation';
 
 import removeImg from '../../assets/images/remove.svg';
+
+import { ptBR } from 'date-fns/locale';
+import format from 'date-fns/format';
+import { delay } from '../../utils/delay';
+import { useAuth } from '../../hooks/useAuth';
+import { Button } from '../../components/Button';
 
 type IRoomParams = {
   id: string;
@@ -27,10 +36,16 @@ export function AdminRoom() {
   const { id: roomId } = useParams<IRoomParams>();
   const navigate = useHistory();
 
-  const { purple } = useTheme();
-  const { questions, loadedRoom, title, isAdmin } = useRoom(roomId);
+  const { purple, pink } = useTheme();
+  const { questions, loadedRoom, title, isAdmin, ended } = useRoom(roomId);
+  const { user } = useAuth();
 
+  const textareaAnswerRef = useRef<HTMLTextAreaElement>(null);
+
+  const [answer, setAnswer] = useState<string>();
   const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
+  const [showAnswerQuestion, setShowAnswerQuestion] = useState<string | undefined>();
+  const [showInputError, setShowInputError] = useState<boolean>(false);
 
   const handleEndRoom = useCallback(async () => {
     setIsActiveModal(true);
@@ -107,12 +122,68 @@ export function AdminRoom() {
     });
   }
 
+  async function handleCheckQuestionAsAnswered(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isAnswered: true,
+    });
+  }
+
+  async function handleShowAnswerInput(questionId: string, isHighLighted: boolean) {
+    setShowAnswerQuestion((oldstate) => (!oldstate ? questionId : undefined));
+    setAnswer(undefined);
+
+    if (!isHighLighted) {
+      await delay();
+      textareaAnswerRef.current?.focus();
+    }
+
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighLighted: !isHighLighted,
+    });
+  }
+
+  const handleAnswerQuestion = useCallback(
+    async (event: FormEvent, questionId: string) => {
+      event.preventDefault();
+
+      if (!answer || answer.trim() === '') {
+        toast.error('Insira uma pergunta!');
+        setShowInputError(true);
+        return;
+      }
+      setShowAnswerQuestion(undefined);
+
+      await database.ref(`rooms/${roomId}/questions/${questionId}/answers`).push({
+        content: answer,
+        author: {
+          avatar: user?.avatar,
+          name: user?.name,
+        },
+      });
+
+      toast.success('Resposta enviada!');
+
+      await handleCheckQuestionAsAnswered(questionId);
+    },
+    [handleCheckQuestionAsAnswered]
+  );
+
   if (!loadedRoom) {
     return <Loading />;
   }
 
   if (!isAdmin) {
-    navigate.push('/');
+    return <Error title="Acesso negado. Você não é o adminstrador desta sala!" />;
+  }
+
+  if (ended) {
+    return (
+      <Error
+        title={`Sala encerrada em ${format(new Date(ended), 'PPPP', {
+          locale: ptBR,
+        })}`}
+      />
+    );
   }
 
   return (
@@ -127,101 +198,91 @@ export function AdminRoom() {
           </div>
 
           {questions.length > 0 ? (
-            <div className="question-list">
+            <div className="question-and-answer-list">
               {questions.map((question) => (
-                <Question key={question.id} author={question.author} content={question.content}>
-                  <motion.button
-                    type="button"
-                    whileTap={{
-                      scale: 1.1,
-                    }}
-                    className="check-button"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                <Fragment key={question.id}>
+                  <div className="question-container">
+                    <Question
+                      author={question.author}
+                      content={question.content}
+                      isAnswered={question.isAnswered}
+                      isHighLighted={question.isHighLighted}
+                      whileHover={
+                        !question.isAnswered
+                          ? {
+                              scale: 1.02,
+                              cursor: 'pointer',
+                            }
+                          : {}
+                      }
                     >
-                      <circle
-                        cx="12.0003"
-                        cy="11.9998"
-                        r="9.00375"
-                        stroke="#737380"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M8.44287 12.3391L10.6108 14.507L10.5968 14.493L15.4878 9.60193"
-                        stroke="#737380"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </motion.button>
+                      {!question.isAnswered && (
+                        <motion.button
+                          onClick={() => handleShowAnswerInput(question.id, question.isHighLighted)}
+                          type="button"
+                          whileTap={{
+                            scale: 1.1,
+                          }}
+                          className="answer-button"
+                        >
+                          <FiMessageSquare size={24} />
+                        </motion.button>
+                      )}
 
-                  <motion.button
-                    type="button"
-                    whileTap={{
-                      scale: 1.1,
-                    }}
-                    className="answer-button"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M12 17.9999H18C19.657 17.9999 21 16.6569 21 14.9999V6.99988C21 5.34288 19.657 3.99988 18 3.99988H6C4.343 3.99988 3 5.34288 3 6.99988V14.9999C3 16.6569 4.343 17.9999 6 17.9999H7.5V20.9999L12 17.9999Z"
-                        stroke="#737380"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </motion.button>
+                      <motion.button
+                        type="button"
+                        onClick={() => handleDeleteQuestion(question.id)}
+                        whileTap={{
+                          scale: 1.1,
+                        }}
+                        className="delete-button"
+                      >
+                        <FiTrash size={24} />
+                      </motion.button>
+                    </Question>
+                  </div>
 
-                  <motion.button
-                    type="button"
-                    onClick={() => handleDeleteQuestion(question.id)}
-                    whileTap={{
-                      scale: 1.1,
-                    }}
-                    className="delete-button"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="delete"
+                  {showAnswerQuestion === question.id && (
+                    <motion.form
+                      onSubmit={(event: FormEvent) => handleAnswerQuestion(event, question.id)}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.4 }}
+                      className="answer-container-input"
                     >
-                      <path
-                        d="M3 5.99988H5H21"
-                        stroke="#737380"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M8 5.99988V3.99988C8 3.46944 8.21071 2.96074 8.58579 2.58566C8.96086 2.21059 9.46957 1.99988 10 1.99988H14C14.5304 1.99988 15.0391 2.21059 15.4142 2.58566C15.7893 2.96074 16 3.46944 16 3.99988V5.99988M19 5.99988V19.9999C19 20.5303 18.7893 21.039 18.4142 21.4141C18.0391 21.7892 17.5304 21.9999 17 21.9999H7C6.46957 21.9999 5.96086 21.7892 5.58579 21.4141C5.21071 21.039 5 20.5303 5 19.9999V5.99988H19Z"
-                        stroke="#737380"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </motion.button>
-                </Question>
+                      <FiCornerDownRight size={24} color={pink.dark} />
+                      <div>
+                        <textarea
+                          ref={textareaAnswerRef}
+                          value={answer ?? ''}
+                          onChange={(value) => {
+                            setShowInputError(false);
+                            setAnswer(value.target.value);
+                          }}
+                          style={
+                            showInputError ? { boxShadow: `0 2px 12px rgba(215, 55, 84, 0.5)` } : {}
+                          }
+                        />
+
+                        <Button>Responder</Button>
+                      </div>
+                    </motion.form>
+                  )}
+
+                  {question.answers.map((v) => (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.4 }}
+                      className="answer-container"
+                      key={v.content}
+                    >
+                      <FiCornerDownRight size={24} color={pink.dark} />
+
+                      <Answer author={v.author} content={v.content} />
+                    </motion.div>
+                  ))}
+                </Fragment>
               ))}
             </div>
           ) : (

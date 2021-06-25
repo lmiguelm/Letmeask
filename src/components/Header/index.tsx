@@ -17,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import { SwitchTheme } from '../SwitchTheme';
 
 import toast, { Toaster } from 'react-hot-toast';
+import { Toast } from 'react-hot-toast/dist/core/types';
 
 const container = {
   hidden: { opacity: 1, scale: 0 },
@@ -80,7 +81,7 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
     });
   }
 
-  function logout() {
+  function handleToHome() {
     navigate.push('/');
   }
 
@@ -111,6 +112,10 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
             variants={item}
             src={name === 'dark' ? logoDarkImg : logoLightImg}
             alt="Letmeask"
+            whileTap={{
+              scale: 1.1,
+            }}
+            onClick={handleToHome}
           />
 
           <motion.div className="links-desktop" initial="hidden" animate="visible">
@@ -128,7 +133,7 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
                 Encerrar sala
               </Button>
             ) : (
-              <Button onClick={logout} variants={item}>
+              <Button onClick={handleToHome} variants={item}>
                 Sair da sala
               </Button>
             )}
@@ -157,7 +162,7 @@ export function Header({ code, handleEndRoom, isAdmin = false }: IHeader) {
                 Encerrar sala
               </Button>
             ) : (
-              <Button onClick={logout} variants={item}>
+              <Button onClick={handleToHome} variants={item}>
                 Sair da sala
               </Button>
             )}
