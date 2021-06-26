@@ -18,6 +18,7 @@ Disponível [aqui](https://letmeask-pearl.vercel.app/).
 
 - 📱 Reponsividade.
 - 🌗 Escolha de tema (dark / light).
+- 🌌 Transições e Animações
 - ⏱ Loading.
 - ❌ Tela de erro.
 - 🏳 Modais e alertas.
@@ -32,6 +33,7 @@ Disponível [aqui](https://letmeask-pearl.vercel.app/).
 - ⚛️ [React.js](https://pt-br.reactjs.org/).
 - 💅 [Styled-Components](https://styled-components.com/).
 - 🔥 [Firebase](https://console.firebase.google.com/).
+- 🌌 [Framer motion](https://www.framer.com/motion/)
 
 <br>
 
