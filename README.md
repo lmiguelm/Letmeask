@@ -4,13 +4,19 @@ Projeto desenvolvido durante a Next Level Week #6 da Rocketseat.
 
 <br>
 
-![Move.it](.github/letmeask.gif)
+![Letmeask](.github/letmeask.png)
 
 <br>
 
 ## 🟢 Experimente agora
 
 Disponível [aqui](https://letmeask-pearl.vercel.app/).
+
+<br>
+
+## 🎥 Video de demosntração
+
+![Letmeask](.github/letmeask.gif)
 
 <br>
 
