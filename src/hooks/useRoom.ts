@@ -70,6 +70,7 @@ export function useRoom(roomId: string) {
 
       const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
 
+      const title = databaseRoom.title as string;
       const roomAdmin = databaseRoom.authorId as string;
       const ended = databaseRoom.endedAt;
       const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
@@ -113,6 +114,7 @@ export function useRoom(roomId: string) {
       setIsAdmin(roomAdmin === user?.id);
       setEnded(ended);
       setLoaded(true);
+      setTitle(title);
     });
 
     return () => roomRef.off('value');
