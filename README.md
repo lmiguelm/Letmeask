@@ -38,7 +38,7 @@ Disponível [aqui](https://letmeask-pearl.vercel.app/).
 ## 💻 Como usar
 
 - **_Clone o projeto:_** <br>
-- ` git clone https://github.com/lmiguelm/Letmeask`
+  ` git clone https://github.com/lmiguelm/Letmeask`
 
 - **_Entre na pasta do projeto:_** <br>
   `cd letmeask`
