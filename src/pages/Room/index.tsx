@@ -22,6 +22,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { FiCornerDownRight, FiThumbsUp } from 'react-icons/fi';
 import { Answer } from '../../components/Answer';
+import { Helmet } from 'react-helmet';
 
 type IRoomParams = {
   id: string;
@@ -104,6 +105,10 @@ export function Room() {
 
   return (
     <>
+      <Helmet>
+        <title>Sala {title}</title>
+      </Helmet>
+
       <Header code={roomId} />
 
       <PageRoom variants={stagger} initial="initial" animate="animate" exit={{ opacity: 0 }}>

@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Helmet from 'react-helmet';
 
 import illustrationImg from '../../assets/images/illustration.svg';
 import logInImg from '../../assets/images/log-in.svg';
@@ -59,6 +60,10 @@ export function Home() {
 
   return (
     <PageAuth variants={stagger} initial="initial" animate="animate" exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
+
       <aside>
         <motion.img
           initial={{ x: '-100%', opacity: 0 }}

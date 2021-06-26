@@ -1,7 +1,7 @@
 import { useCallback, useState, Fragment, FormEvent, useRef } from 'react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
-import { FiCheckCircle, FiMessageSquare, FiTrash, FiCornerDownRight } from 'react-icons/fi';
+import { FiMessageSquare, FiTrash, FiCornerDownRight } from 'react-icons/fi';
 
 import { database } from '../../services/firebase';
 
@@ -27,6 +27,7 @@ import format from 'date-fns/format';
 import { delay } from '../../utils/delay';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../../components/Button';
+import { Helmet } from 'react-helmet';
 
 type IRoomParams = {
   id: string;
@@ -188,6 +189,10 @@ export function AdminRoom() {
 
   return (
     <>
+      <Helmet>
+        <title>Sala {title}</title>
+      </Helmet>
+
       <Header isAdmin={isAdmin} handleEndRoom={handleEndRoom} code={roomId} />
 
       <PageRoom variants={stagger} initial="initial" animate="animate" exit={{ opacity: 0 }}>

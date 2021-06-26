@@ -15,6 +15,7 @@ import { fadeInUp, stagger } from '../../styles/animation';
 
 import { database } from '../../services/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { Helmet } from 'react-helmet';
 
 export function NewRoom() {
   const { name } = useTheme();
@@ -44,6 +45,10 @@ export function NewRoom() {
 
   return (
     <PageNewRoom variants={stagger} initial="initial" animate="animate" exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>Nova sala</title>
+      </Helmet>
+
       <aside>
         <motion.img
           initial={{ x: '-100%', opacity: 0 }}
